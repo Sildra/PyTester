@@ -29,18 +29,6 @@ def change():
     status_ko = red + "[KO] " + reset
 
 
-def noc():
-    global red, green, yellow, orange, blue, violet, reset
-    red = ""
-    green = ""
-    yellow = ""
-    orange = ""
-    blue = ""
-    violet = ""
-    reset = ""
-    change()
-
-
 def to8c():
     global red, green, yellow, orange, blue, violet, reset
     red = "\e[31m"

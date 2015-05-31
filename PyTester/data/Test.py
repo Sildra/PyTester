@@ -1,10 +1,11 @@
-class Test(object):
+from data.Element import Element
+
+
+class Test(Element):
     """description of class"""
 
-    def __init__(self, path, name, depth=0):
-        self.name = name
-        self.path = path
-        self.depth = depth
+    def __init__(self, path, name, depth=0, parent=''):
+        super().__init__(path, name, depth, parent)
 
-    def visit(self, visitor):
-        visitor.accept(self)
+    def accept(self, visitor):
+        visitor.visit(self)

@@ -1,14 +1,14 @@
-class Root(object):
+from data.Category import Category
+
+
+class Root(Category):
     """description of class"""
 
     def __init__(self, path, name, depth=0):
-        self.name = name
-        self.path = path
-        self.depth = depth
-        self.categories = {}
+        super().__init__(path, name, depth)
 
-    def visit(self, visitor):
-        visitor.node(self)
+    def accept(self, visitor):
+        visitor.visit(self)
         if len(self.categories) > 0:
             for node in self.categories.values():
-                node.visit(visitor)
+                node.accept(visitor)

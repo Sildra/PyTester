@@ -1,22 +1,24 @@
-class Category(object):
+import os
+from data.Element import Element
+
+
+class Category(Element):
     """description of class"""
 
-    def __init__(self, path, name, depth=0):
-        self.name = name
-        self.path = path
-        self.depth = depth
+    def __init__(self, path, name, depth=0, parent=''):
+        super().__init__(path, name, depth, parent)
         self.categories = {}
         self.tests = {}
 
-    def visit(self, visitor):
+    def accept(self, visitor):
         """"""
-        visitor.accept(self)
+        visitor.visit(self)
         if len(self.categories) > 0:
             for node in self.categories.values():
-                node.visit(visitor)
+                node.accept(visitor)
         if len(self.tests) > 0:
             for leaf in self.tests.values():
-                leaf.visit(visitor)
+                leaf.accept(visitor)
         return self
 
     def add_category(self, category):
