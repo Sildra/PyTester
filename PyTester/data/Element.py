@@ -7,6 +7,8 @@ class Element:
         self.path = path
         self.depth = depth
         self.parent = parent
+        self.passed = 0
+        self.tested = 0
         self.options = {}
         options = os.path.join(path, "_options")
         if os.path.isfile(options):
@@ -18,9 +20,9 @@ class Element:
     def get_option(self, name, default=''):
         if name in self.options:
             return self.options[name]
-        elif self.parent is not None:
+        try:
             return self.parent.get_option(name, default)
-        else:
+        except (AttributeError):
             return default
 
     def accept(self, obj):

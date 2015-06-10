@@ -1,5 +1,7 @@
 from data.Element import Element
 
+from data import Msg
+
 
 class Test(Element):
     """description of class"""
