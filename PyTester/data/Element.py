@@ -22,7 +22,7 @@ class Element:
             return self.options[name]
         try:
             return self.parent.get_option(name, default)
-        except (AttributeError):
+        except AttributeError:
             return default
 
     def accept(self, obj):

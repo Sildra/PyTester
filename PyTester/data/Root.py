@@ -3,7 +3,7 @@ from data.Category import Category
 
 class Root(Category):
     """description of class"""
-    instance=None
+    instance = None
 
     def __init__(self, path, name, depth=0):
         super().__init__(path, name, depth)
@@ -15,8 +15,8 @@ class Root(Category):
         if len(self.categories) > 0:
             for node in self.categories.values():
                 node.accept(visitor)
+                visitor.leave(self, node)
 
     @staticmethod
     def get_root_option(a, b):
         instance.get_option(a, b)
-

@@ -7,6 +7,9 @@ from data.Test import Test
 from data.Root import Root
 from data import Msg
 
+join = os.path.join
+popen = subprocess.Popen
+
 
 class Executor(Visitor):
     @staticmethod
@@ -16,22 +19,30 @@ class Executor(Visitor):
 
     @staticmethod
     def visit_test(obj: Test):
-        cwdpath = os.path.abspath(os.path.join(obj.path, "_test"))
-        fout = open(os.path.join(cwdpath, "stdout"), 'w')
-        ferr = open(os.path.join(cwdpath, "stderr"), 'w')
-        test_file = os.path.join(cwdpath, "test")
+        cwdpath = os.path.abspath(join(obj.path))
+        outpath = join(cwdpath, "_cache")
+        if not os.path.exists(outpath):
+            os.mkdir(outpath)
+        fout = open(join(outpath, "stdout"), 'w')
+        ferr = open(join(outpath, "stderr"), 'w')
+        fcode = open(join(outpath, "exit_code"), 'w')
+        code = 0
+        test_file = os.path.join(obj.path, "_test", "test")
         if os.path.isfile(test_file):
             try:
-                subprocess.Popen(test_file, stdout=fout, stderr=ferr,
-                        cwd=obj.path).wait()
-            except(PermissionError):
-                Msg.error("Grant exec permission to file " + test_file)
+                code = popen(test_file, stdout=fout, stderr=ferr,
+                             cwd=obj.path).wait()
+            except PermissionError:
+                Msg.error("Permission error on test " + cwdpath)
+            except OSError:
+                Msg.error("OS Error on test " + cwdpath)
         else:
             try:
-                subprocess.Popen(Root.get_root_option("Executable", "None"),
-                        stdout=fout, stderr=ferr, cwd=obj.path)
-            except(TypeError):
-                Msg.error("Type Error on test " + obj.name)
+                code = popen(Root.get_root_option("Executable", "None"),
+                             stdout=fout, stderr=ferr, cwd=obj.path).wait()
+            except TypeError:
+                Msg.error("Type Error on test " + cwdpath)
+        fcode.write(str(code))
+        fcode.close()
         fout.close()
         ferr.close()
-

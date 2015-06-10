@@ -1,3 +1,3 @@
-import data.Msg
+import data.Color
 
-data.Msg.to256c()
+data.Color.to8c()
