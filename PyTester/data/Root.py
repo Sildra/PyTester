@@ -5,10 +5,11 @@ class Root(Category):
     """description of class"""
     instance = None
 
-    def __init__(self, path, name, depth=0):
-        super().__init__(path, name, depth)
+    def __init__(self, args, name="Root", depth=-1):
+        super().__init__(args.path, name, depth)
         global instance
         instance = self
+        self.args = args
 
     def accept(self, visitor):
         visitor.visit(self)
@@ -20,3 +21,7 @@ class Root(Category):
     @staticmethod
     def get_root_option(a, b):
         instance.get_option(a, b)
+
+    @staticmethod
+    def args():
+        return instance.args

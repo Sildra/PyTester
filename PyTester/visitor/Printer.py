@@ -21,7 +21,8 @@ class Printer(Visitor):
 
     @staticmethod
     def visit_category(obj: Category):
-        Msg.cat(obj.name + " " + obj.get_state(), "  " * obj.depth)
+        if not obj.get_state() == "[0/0]":
+            Msg.cat(obj.name + " " + obj.get_state(), "  " * obj.depth)
 
     @staticmethod
     def visit_root(obj: Root):

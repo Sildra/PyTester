@@ -38,7 +38,7 @@ class Executor(Visitor):
                 Msg.error("OS Error on test " + cwdpath)
         else:
             try:
-                code = popen(Root.get_root_option("Executable", "None"),
+                code = popen(Root.args().prog,
                              stdout=fout, stderr=ferr, cwd=obj.path).wait()
             except TypeError:
                 Msg.error("Type Error on test " + cwdpath)
