@@ -10,10 +10,10 @@ class Diff:
     @staticmethod
     def start(obj):
         inpath = join(obj.path, "_test")
-        outpath = join(obj.path, "_cache")
+        outpath = join(obj.path, os.environ["RESULT"])
         obj.tested = 1
         obj.passed = 1
-        dcompare = filecmp.dircmp(inpath, outpath, ignore=["input"])
+        dcompare = filecmp.dircmp(inpath, outpath, ignore=["test", "test.bat"])
         for file in dcompare.left_only:
             obj.passed = 0
             obj.add_empty(file)
